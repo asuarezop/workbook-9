@@ -44,7 +44,7 @@ public class UserInterface {
     }
 
     protected void promptListProducts() {
-        
+
     }
 
     protected void promptAddProducts() {
