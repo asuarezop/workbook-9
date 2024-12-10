@@ -9,12 +9,12 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.pluralsight.northwind")
-public class NorthwindTradersSpringBootApplication implements CommandLineRunner {
+public class NorthwindApplication implements CommandLineRunner {
 	@Autowired
 	UserInterface ui;
 
 	public static void main(String[] args) {
-		SpringApplication.run(NorthwindTradersSpringBootApplication.class, args);
+		SpringApplication.run(NorthwindApplication.class, args);
 	}
 
 	@Override
