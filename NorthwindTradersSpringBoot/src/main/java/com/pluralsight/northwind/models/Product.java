@@ -1,4 +1,4 @@
-package models;
+package com.pluralsight.northwind.models;
 
 public class Product {
     private int productID;
@@ -7,6 +7,13 @@ public class Product {
     private double price;
 
     public Product() {
+    }
+
+    public Product(int productID, String name, String category, double price) {
+        this.productID = productID;
+        this.name = name;
+        this.category = category;
+        this.price = price;
     }
 
     public int getProductID() {
