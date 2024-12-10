@@ -1,5 +1,6 @@
 package com.pluralsight.northwind.app;
 
+import com.pluralsight.northwind.service.DatabaseConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,6 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 public class NorthwindApplication implements CommandLineRunner {
 	@Autowired
 	UserInterface ui;
+
+	@Autowired
+	DatabaseConfiguration dbconfig;
 
 	public static void main(String[] args) {
 		SpringApplication.run(NorthwindApplication.class, args);
