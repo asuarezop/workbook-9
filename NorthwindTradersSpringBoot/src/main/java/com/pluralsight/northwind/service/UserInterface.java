@@ -20,11 +20,13 @@ public class UserInterface {
     //Boolean condition to exit application screens
     protected static boolean exitApp = false;
 
+//    @Autowired
+//    @Qualifier("simple")
+//    ProductDao simpleProduct;
+
     @Autowired
-    @Qualifier("simple")
-    ProductDao simpleProduct;
-//    @Qualifier("csv")
-    ProductDao csvProductDao;
+    @Qualifier("jdbc")
+    ProductDao jdbcProduct;
 
     public UserInterface() {
     }
@@ -55,17 +57,18 @@ public class UserInterface {
                 default:
                     System.out.println("Sorry, that's not a valid option. Please make your selection.");
             }
-
         } while (!exitApp);
     }
 
     protected void promptListProducts() {
-        List<Product> productList;
+//        List<Product> productList;
+        List<Product> dbProductsList;
 
-       productList = simpleProduct.getAll();
-       for (Product p: productList) {
-           System.out.printf("%d %s %s %.2f\n", p.getProductID(), p.getName(), p.getCategory(), p.getPrice());
-       }
+//        productList = simpleProduct.getAll();
+        dbProductsList = jdbcProduct.getAll();
+
+//        printProducts(productList);
+        printProducts(dbProductsList);
     }
 
     protected void promptAddProducts() {
@@ -83,11 +86,21 @@ public class UserInterface {
         p = new Product(parsedProductId, productName, productCategory, parsedProductPrice);
 
         //Calling the add() from SimpleProductDAO
-        simpleProduct.add(p);
+//        simpleProduct.add(p);
+        //Calling the add() from JdbcProductDAO
+        jdbcProduct.add(p);
     }
 
     protected static String promptUser(String prompt) {
         System.out.print(prompt);
         return userInput = inputSc.nextLine().trim();
+    }
+
+    private void printProducts(List<Product> products) {
+        if (!products.isEmpty()) {
+            for (Product p : products) {
+                System.out.printf("%d %s %s %.2f\n", p.getProductID(), p.getName(), p.getCategory(), p.getPrice());
+            }
+        }
     }
 }
