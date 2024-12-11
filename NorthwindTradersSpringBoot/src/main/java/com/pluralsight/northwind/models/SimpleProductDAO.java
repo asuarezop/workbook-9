@@ -2,11 +2,13 @@ package com.pluralsight.northwind.models;
 
 import com.pluralsight.northwind.controllers.ProductDao;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //Component for reading in products from memory
+@Component
 @Qualifier("simple")
 public class SimpleProductDAO implements ProductDao {
     private List<Product> products = new ArrayList<>();
@@ -25,5 +27,10 @@ public class SimpleProductDAO implements ProductDao {
     @Override
     public List<Product> getAll() {
         return getProducts();
+    }
+
+    @Override
+    public Product getProductById(int id) {
+        return null;
     }
 }
