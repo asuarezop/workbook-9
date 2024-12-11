@@ -26,6 +26,24 @@ public class JdbcProductDAO implements ProductDao {
     @Override
     public void add(Product product) {
 //        products.add(product);
+        try(Connection conn = dataSource.getConnection()) {
+            //Setting the CategoryID from Products table using the value from WHERE clause in Categories table
+            PreparedStatement statement = conn.prepareStatement("""
+                    INSERT INTO Products(ProductName, CategoryID, UnitPrice)
+                    SELECT ?, Categories.CategoryID, ?
+                    FROM Categories
+                    WHERE CategoryName = ?
+                    """);
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
+            statement.setString(3, product.getCategory());
+
+            int rows = statement.executeUpdate();
+            System.out.printf("Rows updated: %d\n", rows);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -46,7 +64,7 @@ public class JdbcProductDAO implements ProductDao {
                 double productPrice = rs.getDouble("UnitPrice");
                 String productCategory = rs.getString("CategoryName");
 
-                p = new Product(productId, productName, productCategory, productPrice);
+                p = new Product(productName, productCategory, productPrice);
 
                 products.add(p);
             }

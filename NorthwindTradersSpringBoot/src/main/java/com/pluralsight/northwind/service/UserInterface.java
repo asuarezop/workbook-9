@@ -75,15 +75,12 @@ public class UserInterface {
         Product p;
 
         System.out.println("Enter the following properties of product to add into list: ");
-        String productId = promptUser("ID: ");
-        int parsedProductId = Integer.parseInt(productId);
-
         String productName = promptUser("Product Name: ");
         String productCategory = promptUser("Product Category: ");
         String productPrice = promptUser("Product Price: ");
         double parsedProductPrice = Double.parseDouble(productPrice);
 
-        p = new Product(parsedProductId, productName, productCategory, parsedProductPrice);
+        p = new Product(productName, productCategory, parsedProductPrice);
 
         //Calling the add() from SimpleProductDAO
 //        simpleProduct.add(p);
@@ -99,7 +96,7 @@ public class UserInterface {
     private void printProducts(List<Product> products) {
         if (!products.isEmpty()) {
             for (Product p : products) {
-                System.out.printf("%d %s %s %.2f\n", p.getProductID(), p.getName(), p.getCategory(), p.getPrice());
+                System.out.printf("%s %s %.2f\n", p.getName(), p.getCategory(), p.getPrice());
             }
         }
     }

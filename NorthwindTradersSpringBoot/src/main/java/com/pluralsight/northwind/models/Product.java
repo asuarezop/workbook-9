@@ -1,7 +1,7 @@
 package com.pluralsight.northwind.models;
 
 public class Product {
-    private int productID;
+//    private int productID;
     private String name;
     private String category;
     private double price;
@@ -9,15 +9,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productID, String name, String category, double price) {
-        this.productID = productID;
+    public Product(String name, String category, double price) {
         this.name = name;
         this.category = category;
         this.price = price;
-    }
-
-    public int getProductID() {
-        return productID;
     }
 
     public String getName() {
