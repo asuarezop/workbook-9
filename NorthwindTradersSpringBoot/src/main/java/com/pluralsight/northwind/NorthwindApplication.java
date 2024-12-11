@@ -22,7 +22,7 @@ public class NorthwindApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		ui.showHomeScreen();
 		dbconfig.dataSource();
 	}
