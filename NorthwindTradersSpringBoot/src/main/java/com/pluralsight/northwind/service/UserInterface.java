@@ -1,7 +1,9 @@
 package com.pluralsight.northwind.service;
 
+import com.pluralsight.northwind.controllers.CategoriesController;
 import com.pluralsight.northwind.controllers.ProductDao;
 import com.pluralsight.northwind.controllers.ProductsController;
+import com.pluralsight.northwind.models.Category;
 import com.pluralsight.northwind.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +35,9 @@ public class UserInterface {
     @Autowired
     ProductsController productRepo;
 
+    @Autowired
+    CategoriesController categoriesRepo;
+
     public UserInterface() {
     }
 
@@ -42,6 +47,10 @@ public class UserInterface {
                 
                 [1] List Products
                 [2] Add Products
+                [3] Get Product By ID
+                [4] List Categories
+                [5] Add Categories
+                [6] Get Categories By Name
                 [X] Exit App
                 """;
 
@@ -58,6 +67,16 @@ public class UserInterface {
                     break;
                 case "3":
                     promptGetProductById();
+                    break;
+                case "4":
+                    promptListCategories();
+                    break;
+                case "5":
+                    promptAddCategories();
+                    break;
+                case "6":
+                    promptGetCategoriesByName();
+                    break;
                 case "X":
                     exitApp = true;
                     break;
@@ -113,7 +132,38 @@ public class UserInterface {
         p = productRepo.getProductById(parsedProductId);
         foundProduct.add(p);
         printProducts(foundProduct);
-    };
+    }
+
+    protected void promptListCategories() {
+        List<Category> categories;
+        categories = categoriesRepo.getAll();
+        printCategories(categories);
+    }
+
+    protected void promptAddCategories() {
+        Category c;
+
+        System.out.println("Enter the following category properties to add into list: ");
+        String categoryId = promptUser("Category ID: ");
+        int parsedCategoryId = Integer.parseInt(categoryId);
+        String categoryName = promptUser("Category Name: ");
+
+        c = new Category(parsedCategoryId, categoryName);
+
+        categoriesRepo.add(c);
+    }
+
+    protected void promptGetCategoriesByName() {
+        List<Category> foundCategory = new ArrayList<>();
+        Category c;
+
+        System.out.println("Please provide the category name to filter for matching category: ");
+        String categoryName = promptUser("Name: ");
+
+        c = categoriesRepo.getCategoryByName(categoryName);
+        foundCategory.add(c);
+        printCategories(foundCategory);
+    }
 
     protected static String promptUser(String prompt) {
         System.out.print(prompt);
@@ -127,6 +177,16 @@ public class UserInterface {
             }
         } else {
             System.out.println("No products matched your input.");
+        }
+    }
+
+    protected static void printCategories(List<Category> categories) {
+        if (!categories.isEmpty()) {
+            for (Category c : categories) {
+                System.out.printf("Category ID: %d, Category Name: %s\n", c.getCategoryId(), c.getCategoryName());
+            }
+        } else {
+            System.out.println("No categories matched your input.");
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.pluralsight.northwind.controllers;
 
 import com.pluralsight.northwind.models.Product;
-import com.pluralsight.northwind.service.UserInterface;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
