@@ -10,8 +10,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String category, double unitPrice) {
+    public Product(String productName, int categoryId, String category, double unitPrice) {
         this.productName = productName;
+        this.categoryId = categoryId;
         this.category = category;
         this.unitPrice = unitPrice;
     }

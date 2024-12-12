@@ -1,5 +1,6 @@
 package com.pluralsight.northwind.controllers;
 
+import com.pluralsight.northwind.interfaces.CategoryDao;
 import com.pluralsight.northwind.models.Category;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,11 @@ public class CategoriesController implements CategoryDao {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public Category getCategoryById(int id) {
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.pluralsight.northwind.controllers;
+package com.pluralsight.northwind.interfaces;
 
 import com.pluralsight.northwind.models.Product;
 

@@ -1,4 +1,4 @@
-package com.pluralsight.northwind.controllers;
+package com.pluralsight.northwind.interfaces;
 
 import com.pluralsight.northwind.models.Category;
 
@@ -8,4 +8,5 @@ public interface CategoryDao {
     void add(Category category);
     List<Category> getAll();
     Category getCategoryByName(String name);
+    Category getCategoryById(int id);
 }

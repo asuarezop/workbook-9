@@ -1,6 +1,8 @@
 package com.pluralsight.northwind.service;
 
 import com.pluralsight.northwind.controllers.CategoriesController;
+import com.pluralsight.northwind.interfaces.CategoryDao;
+import com.pluralsight.northwind.interfaces.ProductDao;
 import com.pluralsight.northwind.controllers.ProductsController;
 import com.pluralsight.northwind.models.Category;
 import com.pluralsight.northwind.models.Product;
@@ -31,9 +33,11 @@ public class UserInterface {
     @Qualifier("categories")
     CategoriesController categoriesRepo;
 
-//    @Autowired
-//    @Qualifier("jdbc")
-//    ProductDao jdbcProduct;
+
+
+    @Autowired
+    @Qualifier("jdbc-category")
+    CategoryDao jdbcCategory;
 
     public UserInterface() {
     }
@@ -98,19 +102,17 @@ public class UserInterface {
 
         System.out.println("Enter the following properties of product to add into list: ");
 
-        String productId = promptUser("Product ID: ");
-        int parsedProductId = Integer.parseInt(productId);
-
         String productName = promptUser("Product Name: ");
-        String productCategoryName = promptUser("Product Category: ");
 
         String productCategoryId = promptUser("Product Category ID: ");
         int parsedProductCategoryId = Integer.parseInt(productCategoryId);
 
+        String productCategoryName = promptUser("Product Category: ");
+
         String productPrice = promptUser("Product Price: ");
         double parsedProductPrice = Double.parseDouble(productPrice);
 
-        p = new Product(parsedProductId, productName, parsedProductCategoryId, productCategoryName, parsedProductPrice);
+        p = new Product(productName, parsedProductCategoryId, productCategoryName, parsedProductPrice);
 
         productRepo.add(p);
     }
