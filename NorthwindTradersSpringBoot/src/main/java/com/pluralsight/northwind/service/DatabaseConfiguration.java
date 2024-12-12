@@ -24,6 +24,6 @@ public class DatabaseConfiguration {
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
 
-//        System.out.printf("%s %s %s\n", url, username, password); working
+//        System.out.printf("%s %s %s\n", url, username, password); //working
     }
 }
