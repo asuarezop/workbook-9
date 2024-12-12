@@ -33,18 +33,12 @@ public class UserInterface {
     @Qualifier("categories")
     CategoriesController categoriesRepo;
 
-
-
-    @Autowired
-    @Qualifier("jdbc-category")
-    CategoryDao jdbcCategory;
-
     public UserInterface() {
     }
 
     public void showHomeScreen() {
         String homeScreenMenu = """
-                Select from the following options:
+                \nSelect from the following options:
                 
                 [1] List Products
                 [2] Add Products
@@ -52,6 +46,7 @@ public class UserInterface {
                 [4] List Categories
                 [5] Add Categories
                 [6] Get Categories By Name
+                [7] Get Categories By ID
                 [X] Exit App
                 """;
 
@@ -78,13 +73,16 @@ public class UserInterface {
                 case "6":
                     promptGetCategoriesByName();
                     break;
+                case "7":
+                    promptGetCategoriesByID();
+                    break;
                 case "X":
                     exitApp = true;
                     break;
                 default:
                     System.out.println("Sorry, that's not a valid option. Please make your selection.");
             }
-            System.out.println("exitApp state: " + exitApp); //verifying exitApp status
+//            System.out.println("exitApp state: " + exitApp); //verifying exitApp status
         } while (!exitApp);
 
         System.out.println("Exiting...");
@@ -142,14 +140,9 @@ public class UserInterface {
         Category c;
 
         System.out.println("Enter the following category properties to add into list: ");
-
-        String categoryId = promptUser("Category ID: ");
-        int parsedCategoryId = Integer.parseInt(categoryId);
-
         String categoryName = promptUser("Category Name: ");
 
-        c = new Category(parsedCategoryId, categoryName);
-
+        c = new Category(categoryName);
         categoriesRepo.add(c);
     }
 
@@ -161,6 +154,19 @@ public class UserInterface {
         String categoryName = promptUser("Name: ");
 
         c = categoriesRepo.getCategoryByName(categoryName);
+        foundCategory.add(c);
+        printCategories(foundCategory);
+    }
+
+    protected void promptGetCategoriesByID() {
+        List<Category> foundCategory = new ArrayList<>();
+        Category c;
+
+        System.out.println("Please provide the category ID to filter for matching category: ");
+        String categoryId = promptUser("ID: ");
+        int parsedCategoryId = Integer.parseInt(categoryId);
+
+        c = categoriesRepo.getCategoryById(parsedCategoryId);
         foundCategory.add(c);
         printCategories(foundCategory);
     }
@@ -183,7 +189,7 @@ public class UserInterface {
     protected void printCategories(List<Category> categories) {
         if (!categories.isEmpty()) {
             for (Category c : categories) {
-                System.out.printf("Category ID: %d, Category Name: %s\n", c.getCategoryId(), c.getCategoryName());
+                System.out.printf("Category Name: %s\n", c.getCategoryName());
             }
         } else {
             System.out.println("No categories matched your input.");

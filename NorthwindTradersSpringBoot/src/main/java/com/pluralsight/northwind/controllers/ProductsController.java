@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,21 +17,17 @@ public class ProductsController {
     @Qualifier("jdbc-product")
     ProductDao productDao;
 
-
     public void add(Product product) {
         productDao.add(product);
     }
-
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Product> getAll() {
         return productDao.getAll();
     }
 
-
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Product getProductById(@PathVariable("id") int id) {
-
+    public Product getProductById(@PathVariable("id") Integer id) {
         return productDao.getProductById(id);
     }
 }

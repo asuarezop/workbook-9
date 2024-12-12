@@ -26,7 +26,7 @@ public class JdbcProductDAO implements ProductDao {
     @Override
     public void add(Product product) {
         try (Connection conn = dataSource.getConnection()) {
-            //Setting the CategoryID from Products table using the value from WHERE clause in Categories table
+            //Inserting a new product into Products table using the value from WHERE clause in Categories table
             PreparedStatement statement = conn.prepareStatement("""
                     INSERT INTO Products(ProductName, CategoryID, UnitPrice)
                     SELECT ?, ?, ?
