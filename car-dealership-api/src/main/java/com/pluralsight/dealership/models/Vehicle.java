@@ -11,6 +11,9 @@ public class Vehicle {
     private double price;
     private boolean sold;
 
+    public Vehicle(){
+    }
+
     //Constructing a vehicle object with only a VIN
     public Vehicle(int vin) {
         this.vin = vin;
@@ -32,35 +35,27 @@ public class Vehicle {
     public int getVin() {
         return vin;
     }
-
     public int getYear() {
         return year;
     }
-
     public String getMake() {
         return make;
     }
-
     public String getModel() {
         return model;
     }
-
     public String getVehicleType() {
         return vehicleType;
     }
-
     public String getColor() {
         return color;
     }
-
     public int getMiles() {
         return miles;
     }
-
     public double getPrice() {
         return price;
     }
-
     public boolean isSold() {
         return sold;
     }

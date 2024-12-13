@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,12 +195,13 @@ public class VehicleService implements VehicleDAO {
     }
 
     @Override
-    public void addVehicleToInventory(Vehicle v) {
+    public Vehicle addVehicleToInventory(Vehicle v) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     INSERT INTO vehicles(vin, year, make, model, vehicleType, color, miles, price, sold) VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """);
+
             statement.setInt(1, v.getVin());
             statement.setInt(2, v.getYear());
             statement.setString(3, v.getMake());
@@ -218,6 +216,12 @@ public class VehicleService implements VehicleDAO {
             int rows = statement.executeUpdate();
             System.out.printf("Rows updated: %d\n", rows);
 
+            if (rows > 0) {
+                v = new Vehicle(v.getVin(), v.getYear(), v.getMake(), v.getModel(), v.getVehicleType(), v.getColor(), v.getMiles(), v.getPrice(), v.isSold());
+
+                return v;
+            }
+
             //Printing out vehicle to console
             UserInterface.printVehicleHeader();
             System.out.println(v);
@@ -228,6 +232,8 @@ public class VehicleService implements VehicleDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return null;
     }
 
     @Override

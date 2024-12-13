@@ -12,7 +12,7 @@ public interface VehicleDAO {
     List<Vehicle> findVehiclesByColor(String color);
     List<Vehicle> findVehiclesByMileage(int min, int max);
     List<Vehicle> findVehiclesByVehicleType(String type);
-    void addVehicleToInventory(Vehicle v);
+    Vehicle addVehicleToInventory(Vehicle v);
     void removeVehicleFromInventory(Vehicle v);
     void updateVehicleFromInventory(boolean status, Vehicle v);
     Vehicle findVehicleByVin(int vin);

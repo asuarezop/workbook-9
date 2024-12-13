@@ -207,7 +207,7 @@ public class UserInterface {
         List<Vehicle> vehicles = vehicleRepo.findAllVehicles();
         printVehicleList(vehicles);
     }
-//
+
 //    public void processAddVehicleRequest(Dealership dealership) {
 //        Vehicle v;
 //        promptInstructions("Enter new vehicle to add into:  " + dealership.getName());
@@ -233,7 +233,10 @@ public class UserInterface {
 //
 //        v = new Vehicle(parsedUsedVehicleVIN, parsedUsedVehicleYear, usedVehicleMake, usedVehicleModel, usedVehicleType, usedVehicleColor, parsedUsedVehicleMileage, parsedUsedVehiclePrice, parsedHasVehicleSold);
 //
-//        vehicleManager.addVehicleToInventory(v);
+//        Vehicle createdVehicle = vehicleRepo.addVehicleToInventory(v);
+//
+//        //For testing purposes to see what was returned back
+//        System.out.println(createdVehicle);
 //    }
 //
 //    public void processRemoveVehicleRequest(Dealership dealership) {
