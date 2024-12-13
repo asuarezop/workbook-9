@@ -63,4 +63,10 @@ public class VehicleController {
     public void updateVehicleFromInventory(@PathVariable Integer vin, @RequestBody Vehicle vehicle) {
         vehicleManager.updateVehicleFromInventory(vin, vehicle);
     }
+
+    @RequestMapping(path = "/{vin}", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void removeVehicleFromInventory(@PathVariable Integer vin) {
+        vehicleManager.removeVehicleFromInventory(vin);
+    }
 }

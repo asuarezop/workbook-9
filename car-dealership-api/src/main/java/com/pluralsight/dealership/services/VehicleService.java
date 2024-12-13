@@ -218,7 +218,6 @@ public class VehicleService implements VehicleDAO {
 
             if (rows > 0) {
                 v = new Vehicle(v.getVin(), v.getYear(), v.getMake(), v.getModel(), v.getVehicleType(), v.getColor(), v.getMiles(), v.getPrice(), v.isSold());
-
                 return v;
             }
 
@@ -237,12 +236,12 @@ public class VehicleService implements VehicleDAO {
     }
 
     @Override
-    public void removeVehicleFromInventory(Vehicle v) {
+    public void removeVehicleFromInventory(int vehicleVin) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     DELETE FROM vehicles WHERE vin = ?
                     """);
-            statement.setInt(1, v.getVin());
+            statement.setInt(1, vehicleVin);
 
             //Executing and verifying DELETE query
             int rows = statement.executeUpdate();

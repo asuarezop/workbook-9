@@ -36,7 +36,7 @@ public class DealershipController {
 
     @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void removeDealership(@PathVariable int id) {
+    public void removeDealership(@PathVariable Integer id) {
         dealershipManager.removeDealership(id);
     }
 }
