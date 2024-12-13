@@ -10,6 +10,16 @@ public class Dealership {
     public Dealership() {
     }
 
+    public Dealership(int id) {
+        this.id = id;
+    }
+
+    public Dealership(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     //Constructor to create a new Dealership object
     public Dealership(int id, String name, String address, String phone) {
         this.id = id;

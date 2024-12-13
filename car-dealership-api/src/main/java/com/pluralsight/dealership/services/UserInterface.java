@@ -2,12 +2,15 @@ package com.pluralsight.dealership.services;
 
 import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.controllers.DealershipController;
+import com.pluralsight.dealership.controllers.SalesController;
 import com.pluralsight.dealership.controllers.VehicleController;
 import com.pluralsight.dealership.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,11 +25,15 @@ public class UserInterface {
     @Qualifier("vehicle")
     protected VehicleController vehicleRepo;
 
-//    @Autowired
-//    SalesContractService salesManager;
-//
+    @Autowired
+    @Qualifier("sales")
+    protected SalesController salesRepo;
+
 //    @Autowired
 //    LeaseContractService leaseManager;
+
+    @Autowired
+    AdminUserInterface adminUI;
 
     //Related to input from user
     protected static String userInput;
@@ -68,7 +75,6 @@ public class UserInterface {
 
             //Grabbing selected dealership from user
             Dealership d = promptDealership();
-            System.out.println(d);
 
             System.out.println(prompt);
             userInput = inputSc.nextLine().trim().toUpperCase();
@@ -105,7 +111,7 @@ public class UserInterface {
 //                    processSellLeaseVehicleRequest(d);
                     break;
                 case "A":
-//                    runAsAdmin(d);
+                    runAsAdmin(d);
                     break;
                 case "X":
                     exitApp = true;
@@ -249,7 +255,7 @@ public class UserInterface {
 //
 //        vehicleManager.removeVehicleFromInventory(v);
 //    }
-//
+
 //    public void processSellLeaseVehicleRequest(Dealership dealership) {
 //        Vehicle v;
 //        promptInstructions("Would you like to sell or lease vehicle?:  ");
@@ -262,7 +268,7 @@ public class UserInterface {
 //        String selectedVehicle = promptUser("VIN: ");
 //        int parsedSelectedVehicle = Integer.parseInt(selectedVehicle);
 //
-//        v = vehicleManager.findVehicleByVin(parsedSelectedVehicle);
+//        v = vehicleRepo.findVehicleByVin(parsedSelectedVehicle);
 //
 //        if (parsedContractOption == 1) {
 //            promptContractDetails("sale" , v);
@@ -270,21 +276,19 @@ public class UserInterface {
 //            promptContractDetails("lease", v);
 //        }
 //    }
-//
-//    private void runAsAdmin(Dealership dealership) {
-//        promptInstructions("Enter password to enter admin portal:  ");
-//        String appPassword = promptUser("Password: ");
-//
-//        if (appPassword.equals("admin")) {
-//            AdminUserInterface adminUI = new AdminUserInterface();
-//
-//            //Display admin UI options
-//            adminUI.showAdminScreen(dealership);
-//        }
-//
-//        //If user typed wrong password, go back to regular screen
-//        showHomeScreen();
-//    }
+
+    private void runAsAdmin(Dealership dealership) {
+        promptInstructions("Enter password to enter admin portal:  ");
+        String appPassword = promptUser("Password: ");
+
+        if (appPassword.equals("admin")) {
+            //Display admin UI options
+            adminUI.showAdminScreen(dealership);
+        }
+
+        //If user typed wrong password, go back to regular screen
+        showHomeScreen();
+    }
 
     //Retrieves dealerships from database
     public Dealership promptDealership() {
@@ -321,38 +325,43 @@ public class UserInterface {
 //        SalesContract vehicleSale;
 //        LeaseContract vehicleLease;
 //        LocalDateTime contractDate = LocalDateTime.now();
-//        String[] contractPrompts = {"Enter the customer name associated with the " + contractType + ":  ", "Enter the customer email associated with the " + contractType + ":  ", "Enter whether the vehicle was financed or not:  ", "How much would you like to put towards down payment?:  "};
-//        String[] userInputPrompts = {"Customer name: ", "Customer email: ", """
+//        String[] contractPrompts = {"Enter the " + contractType + " contract ID:  ", "Enter the customer name associated with the " + contractType + ":  ", "Enter the customer email associated with the " + contractType + ":  ", "Enter whether the vehicle was financed or not:  ", "How much would you like to put towards down payment?:  "};
+//        String[] userInputPrompts = {"ID: ", "Customer name: ", "Customer email: ", """
 //                    [1] Yes
 //                    [2] No
 //                    """, "Down payment amount: "};
+//
+//        //Prompting for contract ID
+//        promptInstructions(contractPrompts[0]);
+//        String contractId = promptUser(userInputPrompts[0]);
+//        int parsedContractId = Integer.parseInt(contractId);
 //
 //        //Retrieving LocalDate for contract
 //        LocalDate dateOfContract = LocalDate.parse(DateHandler.getContractDate(contractDate));
 //
 //        //Prompting for customer name
-//        promptInstructions(contractPrompts[0]);
-//        String customerName = promptUser(userInputPrompts[0]);
+//        promptInstructions(contractPrompts[1]);
+//        String customerName = promptUser(userInputPrompts[1]);
 //
 //        //Prompting for customer email
-//        promptInstructions(contractPrompts[1]);
-//        String customerEmail = promptUser(userInputPrompts[1]);
+//        promptInstructions(contractPrompts[2]);
+//        String customerEmail = promptUser(userInputPrompts[2]);
 //
 //        if (contractType.equals("sale")) {
 //            //Prompting to determine if vehicle was financed
-//            promptInstructions(contractPrompts[2]);
-//            String financedOption = promptUser(userInputPrompts[2]);
+//            promptInstructions(contractPrompts[3]);
+//            String financedOption = promptUser(userInputPrompts[3]);
 //
 //            //Passing in sales data from the user into new SalesContract object
-//            vehicleSale = new SalesContract(dateOfContract, customerName, customerEmail, vehicle);
+////            vehicleSale = new SalesContract(parsedContractId, dateOfContract, customerName, customerEmail, vehicle);
 //
 //            if (financedOption.equals("1")) {
 //                //Setting isFinanced boolean variable to true in SalesContract
 //                vehicleSale.setFinanced(true);
 //
 //                //Prompting to determine down payment for vehicle
-//                promptInstructions(contractPrompts[3]);
-//                double downPayment = Double.parseDouble(promptUser(userInputPrompts[3]));
+//                promptInstructions(contractPrompts[4]);
+//                double downPayment = Double.parseDouble(promptUser(userInputPrompts[4]));
 //
 //                //Setting down payment variable to user's amount for SalesContract
 //                vehicleSale.setDownPayment(downPayment);
@@ -364,26 +373,26 @@ public class UserInterface {
 //                //Indicating user intends to pay with cash
 //                vehicleSale.setDownPayment(0);
 //            }
-//
-//            //Saving SalesContract data to database
-//            salesManager.saveSalesContract(vehicleSale);
-//
+
+            //Saving SalesContract data to database
+//            salesRepo.saveSalesContract(vehicleSale);
+
 //        } else if (contractType.equals("lease")) {
 //            //Passing in lease data from the user into new LeaseContract object
-//            vehicleLease = new LeaseContract(dateOfContract, customerName, customerEmail, vehicle);
+//            vehicleLease = new LeaseContract(parsedContractId, dateOfContract, customerName, customerEmail, vehicle);
 //
 //            //Prompting to determine down payment for vehicle
-//            promptInstructions(contractPrompts[3]);
-//            double downPayment = Double.parseDouble(promptUser(userInputPrompts[3]));
+//            promptInstructions(contractPrompts[4]);
+//            double downPayment = Double.parseDouble(promptUser(userInputPrompts[4]));
 //
 //            //Setting down payment variable to user's amount for LeaseContract
 //            vehicleLease.setDownPayment(downPayment);
 //
 //            //Saving LeaseContract data to database
-//            leaseManager.saveLeaseContract(vehicleLease);
+////            leaseManager.saveLeaseContract(vehicleLease);
 //        }
-//
-//        //Confirmation message
+
+        //Confirmation message
 //        System.out.println(ColorCodes.SUCCESS + ColorCodes.ITALIC + "Contract has been saved." + ColorCodes.RESET);
 //    }
 
@@ -397,22 +406,22 @@ public class UserInterface {
         System.out.println(vehicleHeader);
     }
 
-//    public static <T extends Contract> void printContractHeader(List<T> contracts) {
-//        String contractHeader;
-//
-//        //Retrieving the type of subclass for contracts list
-//        Contract contractType = contracts.get(0);
-//
-//        if (contractType instanceof SalesContract) {
-//            contractHeader = ColorCodes.CYAN_UNDERLINED + String.format("%-12s %-16s %-27s %-7s %10s %15s %16s %13s %10s %17s", "Date", "Customer Name", "Customer Email", "VIN", "Sales Tax", "Recording Fee", "Processing Fee", "Total Price", "Financed", "Monthly Payment") + ColorCodes.RESET;
-//            System.out.println(contractHeader);
-//        } else if (contractType instanceof LeaseContract) {
-//            contractHeader = ColorCodes.CYAN_UNDERLINED + String.format("%-12s %-18s %-27s %-8s %10s %15s %16s %20s", "Date", "Customer Name", "Customer Email", "VIN", "Expected End Value", "Lease Fee", "Total Price", "Monthly Payment") + ColorCodes.RESET;
-//            System.out.println(contractHeader);
-//        } else {
-//            System.out.println("Unknown Contract");
-//        }
-//    }
+    public static <T extends Contract> void printContractHeader(List<T> contracts) {
+        String contractHeader;
+
+        //Retrieving the type of subclass for contracts list
+        Contract contractType = contracts.get(0);
+
+        if (contractType instanceof SalesContract) {
+            contractHeader = ColorCodes.CYAN_UNDERLINED + String.format("%-12s %-16s %-27s %-7s %10s %15s %16s %13s %10s %17s", "Date", "Customer Name", "Customer Email", "VIN", "Sales Tax", "Recording Fee", "Processing Fee", "Total Price", "Financed", "Monthly Payment") + ColorCodes.RESET;
+            System.out.println(contractHeader);
+        } else if (contractType instanceof LeaseContract) {
+            contractHeader = ColorCodes.CYAN_UNDERLINED + String.format("%-12s %-18s %-27s %-8s %10s %15s %16s %20s", "Date", "Customer Name", "Customer Email", "VIN", "Expected End Value", "Lease Fee", "Total Price", "Monthly Payment") + ColorCodes.RESET;
+            System.out.println(contractHeader);
+        } else {
+            System.out.println("Unknown Contract");
+        }
+    }
 
     protected static void printDealershipList(List<Dealership> dealerships) {
         if (!dealerships.isEmpty()) {
@@ -435,15 +444,15 @@ public class UserInterface {
             System.out.println("No vehicles matched your input.");
         }
     }
-//
-//    protected static <T extends Contract> void printContractList(List<T> contracts) {
-//        if (!contracts.isEmpty()) {
-//            printContractHeader(contracts);
-//            for (Contract c: contracts) {
-//                System.out.println(c);
-//            }
-//        } else {
-//            System.out.println("No contracts matched your input.");
-//        }
-//    }
+
+    protected static <T extends Contract> void printContractList(List<T> contracts) {
+        if (!contracts.isEmpty()) {
+            printContractHeader(contracts);
+            for (Contract c: contracts) {
+                System.out.println(c);
+            }
+        } else {
+            System.out.println("No contracts matched your input.");
+        }
+    }
 }

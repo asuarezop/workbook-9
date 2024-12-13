@@ -74,4 +74,10 @@ public class VehicleController {
     public Vehicle findVehicleByVin(@RequestParam Integer vin) {
         return vehicleManager.findVehicleByVin(vin);
     }
+
+    //Still working on it (extra thing for later)
+    @RequestMapping(path = "/contracts/{id}", method = RequestMethod.GET)
+    public int findVehicleVinByContractId(@PathVariable Integer id) {
+        return vehicleManager.findVehicleVinByContractId(id);
+    }
 }
