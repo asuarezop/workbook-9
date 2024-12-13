@@ -14,7 +14,7 @@ public interface VehicleDAO {
     List<Vehicle> findVehiclesByVehicleType(String type);
     Vehicle addVehicleToInventory(Vehicle v);
     void removeVehicleFromInventory(Vehicle v);
-    void updateVehicleFromInventory(boolean status, Vehicle v);
+    void updateVehicleFromInventory(int vin, Vehicle v);
     Vehicle findVehicleByVin(int vin);
     int findVehicleVinByContractId(int id);
 }

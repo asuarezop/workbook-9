@@ -58,4 +58,9 @@ public class VehicleController {
     public Vehicle addVehicleToInventory(@RequestBody Vehicle vehicle) {
         return vehicleManager.addVehicleToInventory(vehicle);
     }
+
+    @RequestMapping(path = "/{vin}", method = RequestMethod.PUT)
+    public void updateVehicleFromInventory(@PathVariable Integer vin, @RequestBody Vehicle vehicle) {
+        vehicleManager.updateVehicleFromInventory(vin, vehicle);
+    }
 }
