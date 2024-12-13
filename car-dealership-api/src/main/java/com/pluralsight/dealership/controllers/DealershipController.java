@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Qualifier("dealership")
-@RequestMapping(path = "/dealership")
+@RequestMapping(path = "/dealerships")
 public class DealershipController {
 
     @Autowired

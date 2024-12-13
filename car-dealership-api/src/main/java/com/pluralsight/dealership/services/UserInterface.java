@@ -2,13 +2,12 @@ package com.pluralsight.dealership.services;
 
 import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.controllers.DealershipController;
+import com.pluralsight.dealership.controllers.VehicleController;
 import com.pluralsight.dealership.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,9 +18,10 @@ public class UserInterface {
     @Qualifier("dealership")
     protected DealershipController dealershipRepo;
 
-//    @Autowired
-//    VehicleService vehicleManager;
-//
+    @Autowired
+    @Qualifier("vehicle")
+    protected VehicleController vehicleRepo;
+
 //    @Autowired
 //    SalesContractService salesManager;
 //
@@ -96,7 +96,7 @@ public class UserInterface {
 //                    processGetByVehicleTypeRequest(d);
                     break;
                 case "7":
-//                    processGetAllVehiclesRequest(d);
+                    processGetAllVehiclesRequest(d);
                     break;
                 case "8":
 //                    processAddVehicleRequest(d);
@@ -157,7 +157,7 @@ public class UserInterface {
 //
 //        //Checking length of String parsedYear is not greater than 4
 //        if (year != 0 && parsedYear.length() == 4) {
-//            List<Vehicle> vehicles = vehicleManager.findVehiclesByYear(year);
+//            List<Vehicle> vehicles = vehicleRepo.findVehiclesByYear(year);
 //            printVehicleList(vehicles);
 //        } else {
 //            System.out.println("No vehicles matched given year. Please try again.");
@@ -204,12 +204,12 @@ public class UserInterface {
 //        }
 //    }
 //
-//    public void processGetAllVehiclesRequest(Dealership dealership) {
-//        promptInstructions("Inventory for:  " + dealership.getName());
-//
-//        List<Vehicle> vehicles = vehicleManager.findAllVehicles();
-//        printVehicleList(vehicles);
-//    }
+    public void processGetAllVehiclesRequest(Dealership dealership) {
+        promptInstructions("Inventory for:  " + dealership.getName());
+
+        List<Vehicle> vehicles = vehicleRepo.findAllVehicles();
+        printVehicleList(vehicles);
+    }
 //
 //    public void processAddVehicleRequest(Dealership dealership) {
 //        Vehicle v;
@@ -425,16 +425,16 @@ public class UserInterface {
         }
     }
 
-//    private static void printVehicleList(List<Vehicle> vehicles) {
-//        if (!vehicles.isEmpty()) {
-//            printVehicleHeader();
-//            for (Vehicle v : vehicles) {
-//                System.out.println(v);
-//            }
-//        } else {
-//            System.out.println("No vehicles matched your input.");
-//        }
-//    }
+    protected static void printVehicleList(List<Vehicle> vehicles) {
+        if (!vehicles.isEmpty()) {
+            printVehicleHeader();
+            for (Vehicle v : vehicles) {
+                System.out.println(v);
+            }
+        } else {
+            System.out.println("No vehicles matched your input.");
+        }
+    }
 //
 //    protected static <T extends Contract> void printContractList(List<T> contracts) {
 //        if (!contracts.isEmpty()) {

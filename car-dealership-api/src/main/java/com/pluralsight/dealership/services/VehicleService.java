@@ -3,6 +3,7 @@ package com.pluralsight.dealership.services;
 import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.interfaces.VehicleDAO;
 import com.pluralsight.dealership.models.Vehicle;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Qualifier("vehicle-service")
 public class VehicleService implements VehicleDAO {
     private final DataSource dataSource;
 
