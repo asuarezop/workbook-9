@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface VehicleDAO {
     List<Vehicle> findAllVehicles();
-    List<Vehicle> findVehiclesByPriceRange(double minPrice, double maxPrice);
+    List<Vehicle> findVehiclesByPriceRange(double min, double max);
     List<Vehicle> findVehiclesByMakeModel(String make, String model);
     List<Vehicle> findVehiclesByYear(int year);
     List<Vehicle> findVehiclesByColor(String color);
-    List<Vehicle> findVehiclesByMileage(int minMiles, int maxMiles);
-    List<Vehicle> findVehiclesByVehicleType(String vehicleType);
+    List<Vehicle> findVehiclesByMileage(int min, int max);
+    List<Vehicle> findVehiclesByVehicleType(String type);
     void addVehicleToInventory(Vehicle v);
     void removeVehicleFromInventory(Vehicle v);
     void updateVehicleFromInventory(boolean status, Vehicle v);

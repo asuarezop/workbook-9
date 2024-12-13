@@ -18,7 +18,7 @@ public class DealershipController {
     @Qualifier("dealership-service")
     DealershipDAO dealershipManager;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<Dealership> findAllDealerships() {
         return dealershipManager.findAllDealerships();
     }
@@ -31,10 +31,10 @@ public class DealershipController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public Dealership saveDealership(@RequestBody Dealership dealership) {
-       return dealershipManager.saveDealership(dealership);
+        return dealershipManager.saveDealership(dealership);
     }
 
-    @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeDealership(@PathVariable int id) {
         dealershipManager.removeDealership(id);
