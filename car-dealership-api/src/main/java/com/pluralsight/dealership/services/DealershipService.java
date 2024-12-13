@@ -81,12 +81,12 @@ public class DealershipService implements DealershipDAO {
     }
 
     @Override
-    public void removeDealership(Dealership d) {
+    public void removeDealership(int id) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     DELETE FROM dealerships WHERE id = ?
                     """);
-            statement.setInt(1, d.getId());
+            statement.setInt(1, id);
 
             //Executing and verifying DELETE query
             int rows = statement.executeUpdate();

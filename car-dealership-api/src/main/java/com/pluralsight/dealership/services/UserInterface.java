@@ -69,7 +69,6 @@ public class UserInterface {
         do {
             System.out.println(homeScreenMenuHeader);
 
-
             //Grabbing selected dealership from user
             Dealership d = promptDealership();
             System.out.println(d);

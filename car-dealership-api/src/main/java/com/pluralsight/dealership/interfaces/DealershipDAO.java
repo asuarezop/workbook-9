@@ -8,5 +8,5 @@ public interface DealershipDAO {
     Dealership findDealershipById(int id);
     List<Dealership> findAllDealerships();
     Dealership saveDealership(Dealership d);
-    void removeDealership(Dealership d);
+    void removeDealership(int id);
 }

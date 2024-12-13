@@ -29,12 +29,14 @@ public class DealershipController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.CREATED)
     public Dealership saveDealership(@RequestBody Dealership dealership) {
        return dealershipManager.saveDealership(dealership);
     }
 
-    public void removeDealership(Dealership dealership) {
-        dealershipManager.removeDealership(dealership);
+    @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void removeDealership(@PathVariable int id) {
+        dealershipManager.removeDealership(id);
     }
 }
