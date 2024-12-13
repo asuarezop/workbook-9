@@ -236,12 +236,12 @@ public class VehicleService implements VehicleDAO {
     }
 
     @Override
-    public void removeVehicleFromInventory(int vehicleVin) {
+    public void removeVehicleFromInventory(int vin) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     DELETE FROM vehicles WHERE vin = ?
                     """);
-            statement.setInt(1, vehicleVin);
+            statement.setInt(1, vin);
 
             //Executing and verifying DELETE query
             int rows = statement.executeUpdate();

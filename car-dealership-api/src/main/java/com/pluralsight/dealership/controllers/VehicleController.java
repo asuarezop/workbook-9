@@ -69,4 +69,9 @@ public class VehicleController {
     public void removeVehicleFromInventory(@PathVariable Integer vin) {
         vehicleManager.removeVehicleFromInventory(vin);
     }
+
+    @RequestMapping(path = "/find_by_vin/", method = RequestMethod.GET)
+    public Vehicle findVehicleByVin(@RequestParam Integer vin) {
+        return vehicleManager.findVehicleByVin(vin);
+    }
 }
