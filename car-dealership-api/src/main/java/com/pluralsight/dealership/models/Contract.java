@@ -1,12 +1,12 @@
 package com.pluralsight.dealership.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 //Abstract Contract Class - cannot be used to instantiate a new object
 public abstract class Contract {
     private int id;
     private int vehicleVin;
-    private Date date;
+    private LocalDate date;
     private String customerName;
     private String customerEmail;
 //    private Vehicle vehicleSold;
@@ -29,7 +29,7 @@ public abstract class Contract {
 //    }
 
     //For database representation
-    protected Contract(int id, int vehicleVin, Date date, String customerName, String customerEmail, double vehiclePrice) {
+    protected Contract(int id, int vehicleVin, LocalDate date, String customerName, String customerEmail, double vehiclePrice) {
         this.id = id;
         this.date = date;
         this.vehicleVin = vehicleVin;
@@ -41,8 +41,8 @@ public abstract class Contract {
     public int getId() {
         return id;
     }
-    public java.sql.Date getDate() {
-        return (java.sql.Date) date;
+    public LocalDate getDate() {
+        return date;
     }
     public String getCustomerName() {
         return customerName;

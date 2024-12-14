@@ -83,7 +83,7 @@ public class SalesContractService implements SalesDAO {
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, c.getVehicleVin());
-            statement.setDate(2, c.getDate());
+            statement.setDate(2, Date.valueOf(c.getDate()));
             statement.setString(3, c.getCustomerName());
             statement.setString(4, c.getCustomerEmail());
             statement.setDouble(5, c.getSalesTax());
@@ -115,12 +115,12 @@ public class SalesContractService implements SalesDAO {
     }
 
     @Override
-    public void deleteSalesContract(SalesContract c) {
+    public void deleteSalesContract(int id) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     DELETE FROM sales_contracts WHERE id = ?
                     """);
-            statement.setInt(1, c.getId());
+            statement.setInt(1, id);
 
             //Executing and verifying DELETE query
             int rows = statement.executeUpdate();
@@ -139,7 +139,7 @@ public class SalesContractService implements SalesDAO {
 
         int id = rs.getInt("id");
         int vehicleVin = rs.getInt("vin");
-        Date saleDate = rs.getDate("sale_date");
+        LocalDate saleDate = rs.getDate("sale_date").toLocalDate();
         String customerName = rs.getString("customer_name");
         String customerEmail = rs.getString("customer_email");
 

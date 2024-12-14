@@ -1,7 +1,7 @@
 package com.pluralsight.dealership.models;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 public class LeaseContract extends Contract {
     private int id;
@@ -10,7 +10,7 @@ public class LeaseContract extends Contract {
     private double downPayment;
     private double monthlyPayment;
 
-    public LeaseContract(int id, int vin, Date date, String customerName, String customerEmail, double vehiclePrice) {
+    public LeaseContract(int id, int vin, LocalDate date, String customerName, String customerEmail, double vehiclePrice) {
         super(id, vin, date, customerName, customerEmail, vehiclePrice);
     }
 

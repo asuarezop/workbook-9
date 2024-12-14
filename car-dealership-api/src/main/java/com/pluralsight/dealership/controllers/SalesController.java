@@ -28,4 +28,10 @@ public class SalesController {
     public SalesContract saveSalesContract(@RequestBody SalesContract c) {
         return salesManager.saveSalesContract(c);
     }
+
+    @RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteSalesContract(@PathVariable Integer id) {
+        salesManager.deleteSalesContract(id);
+    }
 }

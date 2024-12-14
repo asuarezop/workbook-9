@@ -16,7 +16,7 @@ public class SalesContract extends Contract {
 //        super(date, customerName, customerEmail, vehicleSold);
 //    }
 
-    public SalesContract(int id, int vin, Date date, String customerName, String customerEmail, double vehiclePrice) {
+    public SalesContract(int id, int vin, LocalDate date, String customerName, String customerEmail, double vehiclePrice) {
         super(id, vin, date, customerName, customerEmail, vehiclePrice);
     }
 

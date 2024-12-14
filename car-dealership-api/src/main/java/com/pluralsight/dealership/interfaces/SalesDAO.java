@@ -8,5 +8,5 @@ public interface SalesDAO {
     List<SalesContract> findAllSalesContracts();
     List<SalesContract> findSalesContractById(int id);
     SalesContract saveSalesContract(SalesContract c);
-    void deleteSalesContract(SalesContract c);
+    void deleteSalesContract(int id);
 }
