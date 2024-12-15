@@ -7,6 +7,6 @@ import java.util.List;
 public interface LeaseDAO {
     List<LeaseContract> findAllLeaseContracts();
     List<LeaseContract> findLeaseContractById(int id);
-    void saveLeaseContract(LeaseContract c);
-    void deleteLeaseContract(LeaseContract c);
+    LeaseContract saveLeaseContract(LeaseContract c);
+    void deleteLeaseContract(int id);
 }

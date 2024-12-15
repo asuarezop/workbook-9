@@ -4,6 +4,7 @@ import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.controllers.VehicleController;
 import com.pluralsight.dealership.interfaces.LeaseDAO;
 import com.pluralsight.dealership.models.LeaseContract;
+import com.pluralsight.dealership.models.SalesContract;
 import com.pluralsight.dealership.models.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -76,12 +77,14 @@ public class LeaseContractService implements LeaseDAO {
     }
 
     @Override
-    public void saveLeaseContract(LeaseContract c) {
+    public LeaseContract saveLeaseContract(LeaseContract c) {
+        LeaseContract lc;
+
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     INSERT INTO lease_contracts(vin, lease_date, customer_name, customer_email, expected_end_value, lease_fee, down_payment, monthly_payment) VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?)
-                    """);
+                    """, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, c.getVehicleVin());
             statement.setString(2, c.getDate());
             statement.setString(3, c.getCustomerName());
@@ -94,18 +97,31 @@ public class LeaseContractService implements LeaseDAO {
             int rows = statement.executeUpdate();
             System.out.printf("Rows updated: %d\n", rows);
 
+            ResultSet genKeys = statement.getGeneratedKeys();
+
+            if (genKeys.next()) {
+                int contractId = genKeys.getInt(1);
+                lc = new LeaseContract(contractId, c.getVehicleVin(), c.getDate(), c.getCustomerName(), c.getCustomerEmail(), c.getVehiclePrice());
+                return lc;
+            }
+
+            //Confirmation message
+            System.out.println(ColorCodes.SUCCESS + ColorCodes.ITALIC + "Lease contract added into database!" + ColorCodes.RESET);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return null;
     }
 
     @Override
-    public void deleteLeaseContract(LeaseContract c) {
+    public void deleteLeaseContract(int id) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     DELETE FROM lease_contracts WHERE id = ?
                     """);
-            statement.setInt(1, c.getId());
+            statement.setInt(1, id);
 
             //Executing and verifying DELETE query
             int rows = statement.executeUpdate();
