@@ -1,7 +1,6 @@
 package com.pluralsight.dealership.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class SalesContract extends Contract {
     private final double salesTax = 0.05;
@@ -16,7 +15,7 @@ public class SalesContract extends Contract {
 //        super(date, customerName, customerEmail, vehicleSold);
 //    }
 
-    public SalesContract(int id, int vin, LocalDate date, String customerName, String customerEmail, double vehiclePrice) {
+    public SalesContract(int id, int vin, String date, String customerName, String customerEmail, double vehiclePrice) {
         super(id, vin, date, customerName, customerEmail, vehiclePrice);
     }
 

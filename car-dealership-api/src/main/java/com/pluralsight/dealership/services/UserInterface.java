@@ -2,6 +2,7 @@ package com.pluralsight.dealership.services;
 
 import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.controllers.DealershipController;
+import com.pluralsight.dealership.controllers.LeaseController;
 import com.pluralsight.dealership.controllers.SalesController;
 import com.pluralsight.dealership.controllers.VehicleController;
 import com.pluralsight.dealership.models.*;
@@ -28,8 +29,9 @@ public class UserInterface {
     @Qualifier("sales")
     protected SalesController salesRepo;
 
-//    @Autowired
-//    LeaseContractService leaseManager;
+    @Autowired
+    @Qualifier("leases")
+    protected LeaseController leaseRepo;
 
     @Autowired
     AdminUserInterface adminUI;

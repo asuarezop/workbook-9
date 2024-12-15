@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class SalesContractService implements SalesDAO {
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, c.getVehicleVin());
-            statement.setDate(2, Date.valueOf(c.getDate()));
+            statement.setString(2, c.getDate());
             statement.setString(3, c.getCustomerName());
             statement.setString(4, c.getCustomerEmail());
             statement.setDouble(5, c.getSalesTax());
@@ -139,7 +138,7 @@ public class SalesContractService implements SalesDAO {
 
         int id = rs.getInt("id");
         int vehicleVin = rs.getInt("vin");
-        LocalDate saleDate = rs.getDate("sale_date").toLocalDate();
+        String saleDate = rs.getString("sale_date");
         String customerName = rs.getString("customer_name");
         String customerEmail = rs.getString("customer_email");
 

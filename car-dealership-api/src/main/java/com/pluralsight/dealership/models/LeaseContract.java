@@ -1,32 +1,31 @@
 package com.pluralsight.dealership.models;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 public class LeaseContract extends Contract {
-    private int id;
     private final double expectedEndValue = 0.50;
     private final double leaseFee = 0.07;
     private double downPayment;
     private double monthlyPayment;
 
-    public LeaseContract(int id, int vin, LocalDate date, String customerName, String customerEmail, double vehiclePrice) {
+    public LeaseContract(int id, int vin, String date, String customerName, String customerEmail, double vehiclePrice) {
         super(id, vin, date, customerName, customerEmail, vehiclePrice);
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     public double getExpectedEndValue() {
         return expectedEndValue * getVehiclePrice();
     }
     public double getLeaseFee() {
-        return leaseFee * getVehiclePrice();
+        return roundToTwoDecimals(leaseFee * getVehiclePrice());
     }
     public double getDownPayment() {
-        return downPayment;
+        if (downPayment > 0) {
+            return roundToTwoDecimals(downPayment);
+        }
+
+        return 0.0;
     }
 
     @Override
@@ -50,11 +49,15 @@ public class LeaseContract extends Contract {
 
         monthlyPayment = depreciatingCost + financeCost + getLeaseFee();
 
-        return monthlyPayment;
+        return roundToTwoDecimals(monthlyPayment);
     }
 
     @Override
     public String toString() {
         return String.format("%-12s %-18s %-27s %-10s %11.2f %20.2f %16.2f %20.2f", getDate(), getCustomerName(), getCustomerEmail(), getVehicleVin(), getExpectedEndValue(), getLeaseFee(), getTotalPrice(), getMonthlyPayment());
+    }
+
+    private double roundToTwoDecimals(double value) {
+        return BigDecimal.valueOf(value).setScale(2, RoundingMode.UP).doubleValue();
     }
 }
