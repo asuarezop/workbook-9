@@ -23,6 +23,11 @@ public class SalesController {
         return salesManager.findAllSalesContracts();
     }
 
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    List<SalesContract> findSalesContractById(@PathVariable Integer id) {
+        return salesManager.findSalesContractById(id);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public SalesContract saveSalesContract(@RequestBody SalesContract c) {

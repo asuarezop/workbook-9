@@ -4,9 +4,7 @@ import com.pluralsight.dealership.interfaces.LeaseDAO;
 import com.pluralsight.dealership.models.LeaseContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,11 @@ public class LeaseController {
     @GetMapping
     public List<LeaseContract> findAllLeaseContracts() {
         return leaseManager.findAllLeaseContracts();
+    }
+
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    List<LeaseContract> findLeaseContractById(@PathVariable Integer id) {
+        return leaseManager.findLeaseContractById(id);
     }
 
 
