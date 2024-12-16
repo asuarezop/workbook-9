@@ -4,7 +4,6 @@ import JavaHelpers.ColorCodes;
 import com.pluralsight.dealership.controllers.VehicleController;
 import com.pluralsight.dealership.interfaces.LeaseDAO;
 import com.pluralsight.dealership.models.LeaseContract;
-import com.pluralsight.dealership.models.SalesContract;
 import com.pluralsight.dealership.models.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,22 +76,20 @@ public class LeaseContractService implements LeaseDAO {
     }
 
     @Override
-    public LeaseContract saveLeaseContract(LeaseContract c) {
-        LeaseContract lc;
-
+    public LeaseContract saveLeaseContract(LeaseContract lc) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     INSERT INTO lease_contracts(vin, lease_date, customer_name, customer_email, expected_end_value, lease_fee, down_payment, monthly_payment) VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?)
                     """, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, c.getVehicleVin());
-            statement.setString(2, c.getDate());
-            statement.setString(3, c.getCustomerName());
-            statement.setString(4, c.getCustomerEmail());
-            statement.setDouble(5, c.getExpectedEndValue());
-            statement.setDouble(6, c.getLeaseFee());
-            statement.setDouble(7, c.getDownPayment());
-            statement.setDouble(8, c.getMonthlyPayment());
+            statement.setInt(1, lc.getVehicleVin());
+            statement.setString(2, lc.getDate());
+            statement.setString(3, lc.getCustomerName());
+            statement.setString(4, lc.getCustomerEmail());
+            statement.setDouble(5, lc.getExpectedEndValue());
+            statement.setDouble(6, lc.getLeaseFee());
+            statement.setDouble(7, lc.getDownPayment());
+            statement.setDouble(8, lc.getMonthlyPayment());
 
             int rows = statement.executeUpdate();
             System.out.printf("Rows updated: %d\n", rows);
@@ -101,7 +98,7 @@ public class LeaseContractService implements LeaseDAO {
 
             if (genKeys.next()) {
                 int contractId = genKeys.getInt(1);
-                lc = new LeaseContract(contractId, c.getVehicleVin(), c.getDate(), c.getCustomerName(), c.getCustomerEmail(), c.getVehiclePrice());
+                lc = new LeaseContract(contractId, lc.getVehicleVin(), lc.getDate(), lc.getCustomerName(), lc.getCustomerEmail(), lc.getVehiclePrice(), lc.getDownPayment());
                 return lc;
             }
 
@@ -143,9 +140,10 @@ public class LeaseContractService implements LeaseDAO {
         String leaseDate = rs.getString("lease_date");
         String customerName = rs.getString("customer_name");
         String customerEmail = rs.getString("customer_email");
+        double downPayment = rs.getDouble("down_payment");
 
         v = vehicleRepo.findVehicleByVin(vehicleVin);
 
-        return new LeaseContract(id, vehicleVin, leaseDate, customerName, customerEmail, v.getPrice());
+        return new LeaseContract(id, vehicleVin, leaseDate, customerName, customerEmail, v.getPrice(), downPayment);
     }
 }

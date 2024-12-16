@@ -315,9 +315,10 @@ public class VehicleService implements VehicleDAO {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     SELECT vehicles.vin FROM vehicles
-                    JOIN sales_contracts ON vehicle.vin = sales_contracts.vin
+                    JOIN sales_contracts ON vehicles.vin = sales_contracts.vin
                     WHERE id = ?
                     """);
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {

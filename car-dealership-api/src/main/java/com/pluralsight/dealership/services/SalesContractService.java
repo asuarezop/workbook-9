@@ -74,23 +74,22 @@ public class SalesContractService implements SalesDAO {
     }
 
     @Override
-    public SalesContract saveSalesContract(SalesContract c) {
-        SalesContract sc;
+    public SalesContract saveSalesContract(SalesContract sc) {
         try (Connection conn = dataSource.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("""
                     INSERT INTO sales_contracts(vin, sale_date, customer_name, customer_email, sales_tax, recording_fee, processing_fee, down_payment, monthly_payment, financed) VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, c.getVehicleVin());
-            statement.setString(2, c.getDate());
-            statement.setString(3, c.getCustomerName());
-            statement.setString(4, c.getCustomerEmail());
-            statement.setDouble(5, c.getSalesTax());
-            statement.setDouble(6, c.getRecordingFee());
-            statement.setDouble(7, c.getProcessingFee());
-            statement.setDouble(8, c.getDownPayment());
-            statement.setDouble(9, c.getMonthlyPayment());
-            statement.setBoolean(10, c.isFinanced());
+            statement.setInt(1, sc.getVehicleVin());
+            statement.setString(2, sc.getDate());
+            statement.setString(3, sc.getCustomerName());
+            statement.setString(4, sc.getCustomerEmail());
+            statement.setDouble(5, sc.getSalesTax());
+            statement.setDouble(6, sc.getRecordingFee());
+            statement.setDouble(7, sc.getProcessingFee());
+            statement.setDouble(8, sc.getDownPayment());
+            statement.setDouble(9, sc.getMonthlyPayment());
+            statement.setBoolean(10, sc.isFinanced());
 
             int rows = statement.executeUpdate();
             System.out.printf("Rows updated: %d\n", rows);
@@ -99,7 +98,7 @@ public class SalesContractService implements SalesDAO {
 
             if (genKeys.next()) {
                 int contractId = genKeys.getInt(1);
-                sc = new SalesContract(contractId, c.getVehicleVin(), c.getDate(), c.getCustomerName(), c.getCustomerEmail(), c.getVehiclePrice());
+                sc = new SalesContract(contractId, sc.getVehicleVin(), sc.getDate(), sc.getCustomerName(), sc.getCustomerEmail(), sc.getVehiclePrice(), sc.getDownPayment());
                 return sc;
             }
 
@@ -141,9 +140,10 @@ public class SalesContractService implements SalesDAO {
         String saleDate = rs.getString("sale_date");
         String customerName = rs.getString("customer_name");
         String customerEmail = rs.getString("customer_email");
+        double downPayment = rs.getDouble("down_payment");
 
         v = vehicleRepo.findVehicleByVin(vehicleVin);
 
-        return new SalesContract(id, vehicleVin, saleDate, customerName, customerEmail, v.getPrice());
+        return new SalesContract(id, vehicleVin, saleDate, customerName, customerEmail, v.getPrice(), downPayment);
     }
 }
